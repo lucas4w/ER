@@ -4,11 +4,11 @@
 | Termo                   | Definição                                                                                                                                                                                |
 | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Guerras Civis           | Nome do sistema e do jogo de dedução social multijogador. Consiste em uma disputa entre dois times: Máfia e Civis.                                  |
-| Máfia                   | Time “vilão” do jogo. Seus membros conhecem uns aos outros e possuem o objetivo de eliminar todos os Civis. Geralmente possui habilidades ofensivas (ex: assassinato).                   |
-| Civis                   | Time “bom” do jogo. A maioria dos jogadores pertence a este time. Não conhecem os papéis uns dos outros e devem descobrir e eliminar os membros da Máfia.                                |
+| Máfia                   | Time “vilão” do jogo. Seus membros possuem o objetivo de derrotar os Civis. Geralmente possui habilidades ofensivas.                   |
+| Civis                   | Time “bom” do jogo. Devem descobrir e eliminar os membros da Máfia.                                |
 | Jogador                 | Usuário que participa ativamente da partida, recebendo um papel e podendo utilizar habilidades e votar.                                                                                  |
 | Espectador              | Jogador que está morto ou que entrou após o início da partida. Pode observar o jogo, mas não interfere nas ações ou votações.                                                            |
-| Papel                   | Função secreta atribuída a cada jogador no início da partida (ex: Assassino, Médico, Detetive, Civil comum). Define as habilidades e o time do jogador.                                  |
+| Papel                   | Função secreta atribuída a cada jogador no início da partida (ex: Assassino, Médico, Detetive, Juiz). Define as habilidades e o time do jogador.                                  |
 | Habilidade              | Poder especial associado a um papel, utilizado principalmente durante a fase da Noite (ex: matar, proteger, investigar, silenciar).                                                      |
 | Noite                   | Fase do jogo em que os jogadores com habilidades utilizam seus poderes de forma secreta. O chat geral normalmente fica restrito ou desativado.                                           |
 | Dia                     | Fase do jogo em que os jogadores vivos discutem, acusam e votam para eliminar um suspeito.                                                                                               |
