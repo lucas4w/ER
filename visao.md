@@ -24,7 +24,7 @@ O sistema deve permitir que grupos de jogadores participem de partidas estrutura
 ### 2.1 Visão e Objetivos do Sistema
 
 A visão do sistema Guerras Civis é tornar-se a principal plataforma independente para a realização de partidas do clássico jogo de dedução social originário do Habbo Hotel, oferecendo uma experiência estável, justa, configurável e acessível.
-O sistema busca preservar a essência do jogo original (estratégia, bluff, trabalho em equipe e tensão social), ao mesmo tempo em que elimina as limitações técnicas e de estabilidade presentes no ambiente do Habbo.
+O sistema busca preservar a essência do jogo original (estratégia, bluff, trabalho em equipe e tensão social).
 
 Objetivos principais:
 
