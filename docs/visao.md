@@ -75,7 +75,7 @@ O sistema é organizado em módulos principais que trabalham de forma integrada:
 ### 3.1 Requisitos por Subsistema / Componente
 
 **1. Módulo de Gerenciamento de Partidas**
-  - Criar, iniciar, reiniciar e finalizar partidas.
+  - Criar, iniciar e finalizar partidas.
   - Controlar entrada e saída de jogadores.
   - Definir número mínimo e máximo de participantes.
   - Gerenciar status geral da partida (Aguardando, Em andamento, Finalizada).
