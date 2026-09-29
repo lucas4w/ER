@@ -3,11 +3,13 @@ package game
 import "fmt"
 
 type Game struct {
-	ID        string
-	Night     int
-	MaxNights int
-	Players   [16]*Player
-	Phase     Phase
+	ID             string
+	Night          int
+	MaxNights      int
+	Players        [16]*Player
+	PendingActions []Action
+	Phase          Phase
+	State          GameState
 }
 
 func NewGame(id string) *Game {
@@ -47,4 +49,24 @@ func (g *Game) PlayerCount() int {
 		}
 	}
 	return count
+}
+
+func (g *Game) GetPlayer(id string) (*Player, error) {
+	for i := range len(g.Players) {
+		if g.Players[i] != nil {
+			if g.Players[i].Id == id {
+				return g.Players[i], nil
+			}
+		}
+	}
+	return nil, fmt.Errorf("player not found")
+}
+
+func (g *Game) HasBeenActioned(playerID string) bool {
+	for _, action := range g.PendingActions {
+		if action.PlayerID == playerID {
+			return true
+		}
+	}
+	return false
 }
