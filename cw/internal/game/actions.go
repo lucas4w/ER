@@ -1,5 +1,7 @@
 package game
 
+import "slices"
+
 type ActionType string
 
 const (
@@ -41,4 +43,29 @@ func actionPriority(action Action) int {
 		return 0
 	}
 	return 0
+}
+
+var RolePermissions = map[Role][]ActionType{
+	Assassin:   {Kill},
+	Apprentice: {Kill},
+	Silencer:   {Silence},
+	Papparazzi: {Photograph},
+	Paralyzer:  {Paralyze},
+	Demon:      {Possess, Kill, Silence, Photograph, Paralyze, Execute, Protect, Investigate, Enchant, Psycopathyze},
+	Psycopath:  {Psycopathyze},
+	Judge:      {Execute},
+	Police:     {Execute},
+	Angel:      {Protect},
+	Detective:  {Investigate},
+	Fairy:      {Enchant},
+}
+
+func CanMakeAction(g *Game, action Action) bool {
+	player, err := g.GetPlayer(action.PlayerID)
+	if err != nil {
+		return false
+	}
+	role := player.Role
+	allowedActions := RolePermissions[role]
+	return slices.Contains(allowedActions, action.Type)
 }
