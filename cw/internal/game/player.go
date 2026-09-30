@@ -10,7 +10,7 @@ type Player struct {
 	Alive     bool
 	Silenced  bool
 	Paralyzed bool
-	Immune    bool
+	Protected bool
 }
 
 func NewPlayer(id string, name string) *Player {
@@ -22,6 +22,22 @@ func NewPlayer(id string, name string) *Player {
 		Alive:     true,
 		Silenced:  false,
 		Paralyzed: false,
-		Immune:    false,
+		Protected: false,
 	}
+}
+
+func (p *Player) IsAlive() bool {
+	return p.Alive
+}
+
+func (p *Player) IsParalyzed() bool {
+	return p.Paralyzed
+}
+
+func (p *Player) IsProtected() bool {
+	return p.Protected
+}
+
+func (p *Player) IssSilenced() bool {
+	return p.Silenced
 }

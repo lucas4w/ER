@@ -70,3 +70,13 @@ func (g *Game) HasBeenActioned(playerID string) bool {
 	}
 	return false
 }
+
+func (g *Game) SortActionsByPriority() {
+	for i := 0; i < len(g.PendingActions); i++ {
+		for j := i + 1; j < len(g.PendingActions); j++ {
+			if actionPriority(g.PendingActions[j]) > actionPriority(g.PendingActions[i]) {
+				g.PendingActions[i], g.PendingActions[j] = g.PendingActions[j], g.PendingActions[i]
+			}
+		}
+	}
+}

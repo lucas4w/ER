@@ -14,6 +14,7 @@ const (
 	PlayerInvestigated  EventType = "player_investigated"
 	PlayerRevenged      EventType = "player_revenged"
 	ActionReflected     EventType = "action_reflected"
+	ApprenticeActivated EventType = "apprentice_activated"
 	NightStarted        EventType = "night_started"
 	DayStarted          EventType = "day_starteds"
 	VotingStarted       EventType = "voting_started"
