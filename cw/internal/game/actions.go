@@ -60,12 +60,27 @@ var RolePermissions = map[Role][]ActionType{
 	Fairy:      {Enchant},
 }
 
-func CanMakeAction(g *Game, action Action) bool {
-	player, err := g.GetPlayer(action.PlayerID)
+func CanMakeAction(game *Game, action Action) bool {
+	player, err := game.GetPlayer(action.PlayerID)
 	if err != nil {
 		return false
 	}
 	role := player.Role
 	allowedActions := RolePermissions[role]
 	return slices.Contains(allowedActions, action.Type)
+}
+
+func IsValid(game *Game, action Action) bool {
+	player, err := game.GetPlayer(action.PlayerID)
+	if err != nil {
+		return false
+	}
+	target, err := game.GetPlayer(action.TargetID)
+	if err != nil {
+		return false
+	}
+	if !target.IsAlive() || !player.IsAlive() || player.IsParalyzed() || (target.IsProtected() && action.Type != Possess) {
+		return false
+	}
+	return true
 }
