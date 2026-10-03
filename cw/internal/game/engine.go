@@ -84,6 +84,11 @@ func (e *GameEngine) ResolveActions(game *Game) ([]Event, error) {
 		}
 		allEvents = append(allEvents, events...)
 	}
+	winEvent, hasWinner := e.CheckWinCondition(game)
+	if hasWinner {
+		allEvents = append(allEvents, winEvent)
+	}
+	game.PendingActions = []Action{}
 	return allEvents, nil
 }
 func (e *GameEngine) ResolveAction(game *Game, action Action) ([]Event, error) {
@@ -173,6 +178,17 @@ func (e *GameEngine) ResolveVoting(game *Game) ([]Event, error) {
 	return events, nil
 }
 
-func (e *GameEngine) CheckWinCondition() {}
+func (e *GameEngine) CheckWinCondition(game *Game) (Event, bool) {
+	alivePlayers := CountAlivePlayersByTeam(game)
+	if alivePlayers[Mafia] == 0 {
+		// Civil team wins
+		return Event{Type: CivilWin, GameID: game.ID}, true
+	}
+	if alivePlayers[Civil] == 0 {
+		// Mafia team wins
+		return Event{Type: MafiaWin, GameID: game.ID}, true
+	}
+	return Event{}, false
+}
 
 func (e *GameEngine) GetPlayerView() {}
