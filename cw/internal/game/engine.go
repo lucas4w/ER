@@ -1,6 +1,8 @@
 package game
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type GameEngine struct{}
 
@@ -24,19 +26,20 @@ func (e *GameEngine) StartNight(game *Game) Event {
 
 	return Event{Type: NightStarted, GameID: game.ID}
 }
-func (e *GameEngine) StartDay(game *Game) Event {
+func (e *GameEngine) StartDay(game *Game) ([]Event, error) {
 	game.Phase = Day
 
-	return Event{Type: DayStarted, GameID: game.ID}
-}
-
-func (e *GameEngine) EndNight(game *Game) ([]Event, error) {
 	events, err := e.ResolveActions(game)
 	if err != nil {
 		return []Event{{}}, err
 	}
 	return events, nil
 }
+
+func (e *GameEngine) EndNight(game *Game) Event {
+	return Event{Type: DayStarted, GameID: game.ID}
+}
+
 func (e *GameEngine) SubmitAction(game *Game, action Action) error {
 	player, err := game.GetPlayer(action.PlayerID)
 	if err != nil {
@@ -141,10 +144,34 @@ func (e *GameEngine) CastVote(game *Game, vote Vote) error {
 	game.Votes = append(game.Votes, vote)
 	return nil
 }
-func (e *GameEngine) CalculateVotes(game *Game) {
-
+func (e *GameEngine) CalculateVotes(game *Game) []string {
+	results := make(map[string]int)
+	for _, vote := range game.Votes {
+		results[vote.TargetID]++
+	}
+	max := 0
+	var votedOut []string
+	for targetID, count := range results {
+		if count > max {
+			max = count
+			votedOut = []string{targetID}
+		} else if count == max {
+			votedOut = append(votedOut, targetID)
+		}
+	}
+	return votedOut
 }
-func (e *GameEngine) ResolveVoting() {}
+func (e *GameEngine) ResolveVoting(game *Game) ([]Event, error) {
+	result := e.CalculateVotes(game)
+	if len(result) > 1 {
+		return []Event{{Type: Draw, GameID: game.ID}}, nil
+	}
+	events, err := e.KillPlayer(game, result[0], DeathByVote)
+	if err != nil {
+		return []Event{}, err
+	}
+	return events, nil
+}
 
 func (e *GameEngine) CheckWinCondition() {}
 

@@ -8,6 +8,7 @@ type Game struct {
 	MaxNights      int
 	Players        [16]*Player
 	PendingActions []Action
+	Votes          []Vote
 	Phase          Phase
 	State          GameState
 }
