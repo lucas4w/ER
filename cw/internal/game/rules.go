@@ -3,11 +3,11 @@ package game
 func MaxNights(playerCount int) int {
 	switch playerCount {
 	case 12:
-		return 5
+		return 9
 	case 14:
-		return 6
+		return 10
 	case 16:
-		return 7
+		return 11
 	default:
 		return 0
 	}
