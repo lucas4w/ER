@@ -1,7 +1,5 @@
 package game
 
-import "math/rand/v2"
-
 type Role string
 
 const (
@@ -11,7 +9,7 @@ const (
 	Papparazzi Role = "papparazzi"
 	Paralyzer  Role = "paralyzer"
 	Demon      Role = "demon"
-	Wizard     Role = "wizard"
+	Oracle     Role = "oracle"
 	Psycopath  Role = "psycopath"
 
 	Judge     Role = "judge"
@@ -31,20 +29,21 @@ func DistributeRoles(game *Game) {
 	}
 
 	if len(game.Players) >= 14 {
-		roles = append(roles, Squire, Wizard)
+		roles = append(roles, Squire, Oracle)
 	}
 	if len(game.Players) == 16 {
 		roles = append(roles, Fairy, Psycopath)
 	}
 
-	rand.Shuffle(len(roles), func(i, j int) {
-		roles[i], roles[j] = roles[j], roles[i]
-	})
+	// rand.Shuffle(len(roles), func(i, j int) {
+	// 	roles[i], roles[j] = roles[j], roles[i]
+	// })
 
 	index := 0
 	for _, player := range game.Players {
 		if player != nil {
 			player.Role = roles[index]
+			player.Team = RoleToTeam[player.Role]
 			index++
 		}
 	}
