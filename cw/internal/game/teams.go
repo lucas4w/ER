@@ -7,9 +7,30 @@ const (
 	Civil Team = "civil"
 )
 
-var TeamRole = map[Team][]Role{
-	Mafia: {Assassin, Apprentice, Silencer, Paralyzer, Papparazzi, Demon, Psycopath, Wizard},
-	Civil: {Judge, Police, Angel, Detective, Villager, Spirit, Squire, Fairy},
+var RoleToTeam = map[Role]Team{
+	Assassin:   Mafia,
+	Apprentice: Mafia,
+	Silencer:   Mafia,
+	Paralyzer:  Mafia,
+	Papparazzi: Mafia,
+	Demon:      Mafia,
+	Psycopath:  Mafia,
+	Oracle:     Mafia,
+	Judge:      Civil,
+	Police:     Civil,
+	Angel:      Civil,
+	Detective:  Civil,
+	Villager:   Civil,
+	Spirit:     Civil,
+	Squire:     Civil,
+	Fairy:      Civil,
+}
+
+func GetTeamByRole(role Role) Team {
+	if team, ok := RoleToTeam[role]; ok {
+		return team
+	}
+	return ""
 }
 
 func CountAlivePlayersByTeam(game *Game) map[Team]int {
