@@ -1,14 +1,12 @@
 package game
 
-import "github.com/gofiber/contrib/v3/websocket"
-
 type Player struct {
 	Id            string
-	Conn          *websocket.Conn
 	Name          string
 	Role          Role
 	SecondaryRole Role
 	Team          Team
+	Knowledge     PlayerKnowledge
 	Alive         bool
 	Silenced      bool
 	Paralyzed     bool
@@ -18,7 +16,6 @@ type Player struct {
 func NewPlayer(id string, name string) *Player {
 	return &Player{
 		Id:            id,
-		Conn:          nil,
 		Name:          name,
 		Role:          "",
 		Alive:         true,
@@ -26,6 +23,10 @@ func NewPlayer(id string, name string) *Player {
 		Paralyzed:     false,
 		Protected:     false,
 		SecondaryRole: "",
+		Knowledge: PlayerKnowledge{
+			KnownRoles:      make(map[string]Role),
+			TeamComparisons: []TeamComparison{},
+		},
 	}
 }
 

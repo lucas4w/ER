@@ -1,6 +1,12 @@
 package game
 
 type GameState struct {
-	JudgeExecutionAvailable bool
-	ApprenticeActivated     bool
+	ExecutionRight            ExecutionRight
+	ExecutionRightDemon       ExecutionRight
+	ApprenticeActivated       bool
+	PlayersAffectedByEffects  []*Player
+	RevealedTeamMembers       map[string]Team
+	ActionsAgainstPolice      []Action
+	ActionsAgainstPoliceDemon []Action
+	DemonRole                 Role
 }

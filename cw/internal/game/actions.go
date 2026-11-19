@@ -1,6 +1,8 @@
 package game
 
-import "slices"
+import (
+	"slices"
+)
 
 type ActionType string
 
@@ -10,6 +12,7 @@ const (
 	Photograph   ActionType = "photograph"
 	Paralyze     ActionType = "paralyze"
 	Psycopathyze ActionType = "psycopathyze"
+	Connect      ActionType = "connect"
 	Possess      ActionType = "possess"
 	Execute      ActionType = "execute"
 	Protect      ActionType = "protect"
@@ -18,9 +21,9 @@ const (
 )
 
 type Action struct {
-	PlayerID string
-	TargetID string
-	Type     ActionType
+	PlayerID  string
+	TargetIDs []string
+	Type      ActionType
 }
 
 func actionPriority(action Action) int {
@@ -51,7 +54,8 @@ var RolePermissions = map[Role][]ActionType{
 	Silencer:   {Silence},
 	Papparazzi: {Photograph},
 	Paralyzer:  {Paralyze},
-	Demon:      {Possess, Kill, Silence, Photograph, Paralyze, Execute, Protect, Investigate, Enchant, Psycopathyze},
+	Demon:      {Possess},
+	Oracle:     {Connect},
 	Psycopath:  {Psycopathyze},
 	Judge:      {Execute},
 	Police:     {Execute},
@@ -67,20 +71,29 @@ func CanMakeAction(game *Game, action Action) bool {
 	}
 	role := player.Role
 	allowedActions := RolePermissions[role]
-	return slices.Contains(allowedActions, action.Type)
+	allowedSecondaryActions := []ActionType{}
+	if player.SecondaryRole != "" {
+		allowedSecondaryActions = RolePermissions[player.SecondaryRole]
+	}
+	return slices.Contains(allowedActions, action.Type) || slices.Contains(allowedSecondaryActions, action.Type)
 }
 
-func IsValid(game *Game, action Action) bool {
+func IsActionValid(game *Game, action Action) bool {
 	player, err := game.GetPlayer(action.PlayerID)
 	if err != nil {
 		return false
 	}
-	target, err := game.GetPlayer(action.TargetID)
-	if err != nil {
-		return false
-	}
-	if !target.IsAlive() || !player.IsAlive() || player.IsParalyzed() || (target.IsProtected() && action.Type != Possess) {
-		return false
+	for i := range action.TargetIDs {
+		if action.TargetIDs[i] == "" {
+			continue
+		}
+		target, err := game.GetPlayer(action.TargetIDs[i])
+		if err != nil {
+			return false
+		}
+		if !player.IsAlive() || !target.IsAlive() || (player.IsParalyzed() && action.Type != Possess) || (target.IsProtected() && action.Type != Possess) || target == player {
+			return false
+		}
 	}
 	return true
 }
